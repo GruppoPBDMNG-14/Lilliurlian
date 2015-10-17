@@ -1,5 +1,7 @@
 package lilliurlian;
 
+import org.eclipse.jetty.server.Server;
+
 import com.mongodb.*;
 
 import static spark.Spark.setIpAddress;
@@ -15,7 +17,7 @@ public class Bootstrap {
         setIpAddress(IP_ADDRESS);
         setPort(PORT);
         staticFileLocation("/public");
-        new UrlShortenerResource(new UrlShortenerService(mongo()));
+        new ShortenerResource(new ShortenerService(mongo()));
     }
 
     private static DB mongo() throws Exception {

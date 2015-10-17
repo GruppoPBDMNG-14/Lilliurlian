@@ -9,6 +9,7 @@ var app = angular.module('URLShortener', [
 var host = location.hostname + (location.port ? ":" + location.port + "/" : "/");
 
 app.config(function ($routeProvider) {
+	
     $routeProvider.when('/', {
         templateUrl: 'views/newurl.html',
         controller: 'CreateCtrl'

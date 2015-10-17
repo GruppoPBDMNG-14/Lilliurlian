@@ -18,13 +18,17 @@ import static spark.Spark.get;
 import static spark.Spark.post;
 import static spark.Spark.put;
 
-public class UrlShortenerResource {
+public class ShortenerResource {
 
     private static final String API_CONTEXT = "/api/v1";
+    private static final int CUSTOM_URL_NOT_VALID_RESPONSE_ERROR_CODE = 503;
+    private static final int WRONG_URL_RESPONSE_ERROR_CODE = 502;
+    private static final int CUSTOM_URL_EXISTS_RESPONSE_ERROR_CODE = 501;
+    private static final int NEW_URL_RESPONSE_SUCCESS_CODE = 201;
 
-    private final UrlShortenerService shortenerService;
+    private final ShortenerService shortenerService;
 
-    public UrlShortenerResource(UrlShortenerService shortenerService) {
+    public ShortenerResource(ShortenerService shortenerService) {
         this.shortenerService = shortenerService;
         setupEndpoints();
     }
@@ -40,18 +44,18 @@ public class UrlShortenerResource {
         	try{
         		
         		returnUrl = shortenerService.createNewUrl(request.body());
-        		response.status(201);
+        		response.status(NEW_URL_RESPONSE_SUCCESS_CODE);
             
         	} catch (CustomUrlExistsException e){
         	
-        		response.status(501);
+        		response.status(CUSTOM_URL_EXISTS_RESPONSE_ERROR_CODE);
         		
         	} catch (WrongUrlException e){
         		
-        		response.status(502);
+        		response.status(WRONG_URL_RESPONSE_ERROR_CODE);
         	} catch (CustomUrlNotValidException e){
         		
-        		response.status(503);
+        		response.status(CUSTOM_URL_NOT_VALID_RESPONSE_ERROR_CODE);
         	}
         	
         	return returnUrl;
@@ -59,10 +63,15 @@ public class UrlShortenerResource {
         }, new JsonTransformer());
         
 
-    	//dummy
-        get(API_CONTEXT + "/todos/:id", "application/json", (request, response)
+      //AGGIUNGERE CONTROLLI ED ECCEZIONI!!!
+        get("/:shortUrl", "application/json", (request, response) -> {
+        	
+        	String longUrlToVisit = shortenerService.searchShortUrl(request.params(":shortUrl"));
+        	response.redirect("http://" + longUrlToVisit);
+        	return null;
+        });
 
-                -> shortenerService.find(request.params(":id")), new JsonTransformer());
+                
 
     }
 

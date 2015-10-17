@@ -23,7 +23,7 @@ public class BadContentChecker {
 
 			while (inputFile.hasNextLine() && result == false) {
 				String badWord = inputFile.nextLine();
-				if (stringToCheck.equalsIgnoreCase(badWord)) {
+				if (stringToCheck.equalsIgnoreCase(badWord) || stringToCheck.contains(badWord)) {
 					i = NUMBER_OF_LANG;
 					result = true;
 					

@@ -19,12 +19,12 @@ import lilliurlian.utility.ShortStringGenerator;
 import lilliurlian.utility.SpecialCharFinder;
 
 
-public class UrlShortenerService {
+public class ShortenerService {
 
     private final DB db;
     private final DBCollection collection;
 
-    public UrlShortenerService(DB db) {
+    public ShortenerService(DB db) {
         this.db = db;
         this.collection = db.getCollection("urls");
     }
@@ -110,9 +110,12 @@ public class UrlShortenerService {
         
     }
 
-    //dummy
-    public UrlFromServer find(String id) {
-        return new UrlFromServer((BasicDBObject) collection.findOne(new BasicDBObject("_id", new ObjectId(id))));
-    }
+    
+    public String searchShortUrl(String shortUrl) {
+    	
+    	String ret = (String) collection.findOne(new BasicDBObject("shortUrl", shortUrl)).get("longUrl");
+        return ret;
+    
+    }    
 
 }

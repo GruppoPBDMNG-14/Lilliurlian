@@ -13,6 +13,7 @@ import java.util.HashMap;
 import lilliurlian.entities.UrlFromClient;
 import lilliurlian.exceptions.CustomUrlExistsException;
 import lilliurlian.exceptions.CustomUrlNotValidException;
+import lilliurlian.exceptions.PageNotFoundException;
 import lilliurlian.exceptions.WrongUrlException;
 import static spark.Spark.get;
 import static spark.Spark.post;
@@ -66,8 +67,19 @@ public class ShortenerResource {
       //AGGIUNGERE CONTROLLI ED ECCEZIONI!!!
         get("/:shortUrl", "application/json", (request, response) -> {
         	
-        	String longUrlToVisit = shortenerService.searchShortUrl(request.params(":shortUrl"));
-        	response.redirect("http://" + longUrlToVisit);
+        	System.out.println(request.params("shortUrl"));
+        	if(request.params(":shortUrl").equalsIgnoreCase("favicon.ico") == false){
+        		try{
+        		
+        			String longUrlToVisit = shortenerService.searchShortUrl(request.params(":shortUrl"));
+        			response.redirect("http://" + longUrlToVisit);
+        	
+        		} catch (PageNotFoundException e){
+        		
+        			response.redirect("#/404");
+        		}
+        	}
+        	
         	return null;
         });
 

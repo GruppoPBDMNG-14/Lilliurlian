@@ -12,6 +12,7 @@ import lilliurlian.entities.UrlFromClient;
 import lilliurlian.entities.UrlFromServer;
 import lilliurlian.exceptions.CustomUrlExistsException;
 import lilliurlian.exceptions.CustomUrlNotValidException;
+import lilliurlian.exceptions.PageNotFoundException;
 import lilliurlian.exceptions.WrongUrlException;
 import lilliurlian.utility.BadContentChecker;
 import lilliurlian.utility.EmptyStringChecker;
@@ -111,9 +112,19 @@ public class ShortenerService {
     }
 
     
-    public String searchShortUrl(String shortUrl) {
+    public String searchShortUrl(String shortUrl) throws PageNotFoundException {
     	
-    	String ret = (String) collection.findOne(new BasicDBObject("shortUrl", shortUrl)).get("longUrl");
+    	String ret = null;
+    	
+    	try{
+    		
+    		ret = (String) collection.findOne(new BasicDBObject("shortUrl", shortUrl)).get("longUrl");
+    		
+    	} catch (NullPointerException e){	
+    		
+    		throw new PageNotFoundException("Short url not found");
+    	}
+    	
         return ret;
     
     }    

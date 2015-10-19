@@ -1,5 +1,5 @@
 
-var app = angular.module('URLShortener', [
+var app = angular.module('Lilliurlian', [
     'ngCookies',
     'ngResource',
     'ngSanitize',
@@ -15,6 +15,9 @@ app.config(function ($routeProvider) {
         controller: 'CreateCtrl'
     }).when('/stats', {
         templateUrl: 'views/create.html',
+        controller: 'ListCtrl'
+    }).when('/404', {
+        templateUrl: 'views/404.html',
         controller: 'ListCtrl'
     }).otherwise({
         redirectTo: '/'

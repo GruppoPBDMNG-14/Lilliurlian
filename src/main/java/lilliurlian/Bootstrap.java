@@ -1,7 +1,5 @@
 package lilliurlian;
 
-import org.eclipse.jetty.server.Server;
-
 import com.mongodb.*;
 
 import static spark.Spark.setIpAddress;

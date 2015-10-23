@@ -63,8 +63,7 @@ public class ShortenerResource {
         	
         }, new JsonTransformer());
         
-
-      //AGGIUNGERE CONTROLLI ED ECCEZIONI!!!
+        
         get("/:shortUrl", "application/json", (request, response) -> {
         	
         	System.out.println(request.params("shortUrl"));

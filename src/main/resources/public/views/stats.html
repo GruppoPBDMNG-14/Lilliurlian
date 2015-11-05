@@ -1,0 +1,70 @@
+<div class="container">
+
+	<div align="center" class="logo-margin">
+		<img src="images/logo.png"  alt="logo">
+	
+	</div>
+	
+	<div class="more-top-margin">
+		<form class="form-horizontal" role="form" ng-submit="getStats()">
+    		<div class="form-group " >
+        		
+        		<div class="col-md-offset-2 col-md-6">
+            	<input type="text" class="form-control" id="shorturl" placeholder="Paste your short url here..." ng-model="url.shortUrl">
+           		</div>
+            	
+            	<button type="submit" class="btn btn-primary pull-left col-md-2"> Get Statistics!</button>
+            	
+   			</div>
+
+		</form>
+	</div>
+
+	<div class="more-top-margin">
+ 		<table class="table table-striped table-bordered" ng-show="true">
+
+    		<tbody>
+      			<tr>
+        			<th>Short Url:</td>
+        			<td>{{shortUrl}}</td>
+      			</tr>
+      			<tr>
+        			<th>Long Url:</td>
+        			<td>{{longUrl}}</td>
+      			</tr>
+      			<tr>
+        			<th>Created on:</td>
+        			<td>{{createdOn}}</td>
+      			</tr>
+      			<tr>
+        			<th>Total Clicks:</td>
+        			<td>{{totalClicks}}</td>
+      			</tr>
+      			<tr>
+        			<th>Clicks/Day Avg:</td>
+        			<td>{{ClicksPerDay}}</td>
+      			</tr>
+      			<tr>
+        			<th>Clicks/Month Avg:</td>
+        			<td>{{ClicksPerMonth}}</td>
+      			</tr>
+      			<tr>
+        			<th>Clicks/Year Avg:</td>
+        			<td>{{ClicksPerYear}}</td>
+      			</tr>
+      			<tr>
+        			<th>Top 5 Country:</td>
+        			<td>{{ClicksPerCountry}}</td>
+      			</tr>
+      			<tr>
+        			<th>Top 5 Browser:</td>
+        			<td>{{ClicksPerBrowser}}</td>
+      			</tr>
+      			<tr>
+        			<th>Top 5 OS:</td>
+        			<td>{{ClicksPerOS}}</td>
+      			</tr>
+    		</tbody>
+  		</table>
+ 	</div> 
+</div>  

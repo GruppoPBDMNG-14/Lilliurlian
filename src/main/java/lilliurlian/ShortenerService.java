@@ -112,7 +112,7 @@ public class ShortenerService {
     }
 
     
-    public String searchShortUrl(String shortUrl) throws PageNotFoundException {
+    public String searchShortUrl(String shortUrl, String agentName, String agentOS, String agentIP) throws PageNotFoundException {
     	
     	String ret = null;
     	

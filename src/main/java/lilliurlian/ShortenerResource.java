@@ -1,5 +1,9 @@
 package lilliurlian;
 
+import net.sf.uadetector.ReadableUserAgent;
+import net.sf.uadetector.UserAgentStringParser;
+import net.sf.uadetector.service.UADetectorServiceFactory;
+
 import org.apache.commons.validator.routines.UrlValidator;
 
 import com.google.gson.Gson;
@@ -8,6 +12,7 @@ import spark.Request;
 import spark.Response;
 import spark.Route;
 
+import java.io.IOException;
 import java.util.HashMap;
 
 import lilliurlian.entities.UrlFromClient;
@@ -15,6 +20,7 @@ import lilliurlian.exceptions.CustomUrlExistsException;
 import lilliurlian.exceptions.CustomUrlNotValidException;
 import lilliurlian.exceptions.PageNotFoundException;
 import lilliurlian.exceptions.WrongUrlException;
+import lilliurlian.utility.IPGeoloc;
 import static spark.Spark.get;
 import static spark.Spark.post;
 import static spark.Spark.put;
@@ -66,11 +72,26 @@ public class ShortenerResource {
         
         get("/:shortUrl", "application/json", (request, response) -> {
         	
-        	System.out.println(request.params("shortUrl"));
+        	
+
+        	UserAgentStringParser parser = UADetectorServiceFactory.getResourceModuleParser();
+    		ReadableUserAgent agent = parser.parse(request.headers("User-Agent"));
+    		
+    		String agentName = agent.getName();
+    		String agentOS = agent.getOperatingSystem().getName();
+    		String agentIP = request.ip();
+    		String shortUrl = request.params(":shortUrl");
+    		
+    		//Controlli da togliere
+    		System.out.println(agent.getName());
+    		System.out.println(agent.getOperatingSystem().getName());
+        	System.out.println(request.ip());
+        	System.out.println(request.params(":shortUrl"));
+        	
         	if(request.params(":shortUrl").equalsIgnoreCase("favicon.ico") == false){
         		try{
         		
-        			String longUrlToVisit = shortenerService.searchShortUrl(request.params(":shortUrl"));
+        			String longUrlToVisit = shortenerService.searchShortUrl(shortUrl, agentName, agentOS, agentIP);
         			response.redirect("http://" + longUrlToVisit);
         	
         		} catch (PageNotFoundException e){

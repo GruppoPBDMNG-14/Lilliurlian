@@ -14,8 +14,8 @@ app.config(function ($routeProvider) {
         templateUrl: 'views/newurl.html',
         controller: 'CreateCtrl'
     }).when('/stats', {
-        templateUrl: 'views/create.html',
-        controller: 'ListCtrl'
+        templateUrl: 'views/stats.html',
+        controller: 'StatsCtrl'
     }).when('/404', {
         templateUrl: 'views/404.html',
         controller: 'ListCtrl'
@@ -24,7 +24,7 @@ app.config(function ($routeProvider) {
     })
 });
 
-app.controller('ListCtrl', function ($scope, $http) {
+app.controller('StatsCtrl', function ($scope, $http) {
     $http.get('/api/v1/todos').success(function (data) {
         $scope.todos = data;
     }).error(function (data, status) {

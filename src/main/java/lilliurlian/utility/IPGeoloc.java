@@ -16,16 +16,22 @@ public class IPGeoloc {
 	
 	public IPGeoloc() throws IOException{
 		
-		db = new File("src/main/resources/public/IPdb/GeoLite2-Country.mmdb.txt");
+		db = new File("src/main/resources/public/IPdb/GeoLite2-Country.mmdb");
 		
 		dbreader = new DatabaseReader.Builder(db).build();
 	}
 	
 
-	public String getCountry(String IP) throws IOException, GeoIp2Exception {
+	public String getCountryIso(String IP) throws IOException, GeoIp2Exception {
 		CountryResponse response = dbreader.country(InetAddress.getByName(IP));
 		Country country = response.getCountry();
 		return country.getIsoCode();
+	}
+	
+	public String getCountryName(String IP) throws IOException, GeoIp2Exception {
+		CountryResponse response = dbreader.country(InetAddress.getByName(IP));
+		Country country = response.getCountry();
+		return country.getName();
 	}
 	
 }

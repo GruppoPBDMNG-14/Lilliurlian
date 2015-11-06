@@ -1,11 +1,13 @@
 package lilliurlian;
 
 import com.google.gson.Gson;
+import com.maxmind.geoip2.exception.GeoIp2Exception;
 import com.mongodb.*;
 
 import org.apache.commons.validator.routines.UrlValidator;
 import org.bson.types.ObjectId;
 
+import java.io.IOException;
 import java.util.Date;
 
 import lilliurlian.entities.UrlFromClient;
@@ -16,11 +18,19 @@ import lilliurlian.exceptions.PageNotFoundException;
 import lilliurlian.exceptions.WrongUrlException;
 import lilliurlian.utility.BadContentChecker;
 import lilliurlian.utility.EmptyStringChecker;
+import lilliurlian.utility.IPGeoloc;
 import lilliurlian.utility.ShortStringGenerator;
 import lilliurlian.utility.SpecialCharFinder;
 
 
 public class ShortenerService {
+	
+	String browserField = "browser.";
+	String oSField = "OS.";
+	String countryField = "Country.";
+	String totalClicksField = "totalClicks";
+	
+	private static final String UNDEFINED_COUNTRY = "NaN";
 
     private final DB db;
     private final DBCollection collection;
@@ -114,11 +124,51 @@ public class ShortenerService {
     
     public String searchShortUrl(String shortUrl, String agentName, String agentOS, String agentIP) throws PageNotFoundException {
     	
+    	String country;
     	String ret = null;
     	
     	try{
     		
     		ret = (String) collection.findOne(new BasicDBObject("shortUrl", shortUrl)).get("longUrl");
+    		
+    		BasicDBObject newTotalClicks = 
+    				new BasicDBObject().append("$inc", 
+    				new BasicDBObject().append(totalClicksField, 1));
+    					
+    			collection.update(new BasicDBObject().append("shortUrl", shortUrl), newTotalClicks);
+    			
+    		BasicDBObject newBrowserClicks = 
+        			new BasicDBObject().append("$inc", 
+        			new BasicDBObject().append(browserField.concat(agentName), 1));
+        					
+        		collection.update(new BasicDBObject().append("shortUrl", shortUrl), newBrowserClicks);
+        	
+        	BasicDBObject newOSClicks = 
+            		new BasicDBObject().append("$inc", 
+           			new BasicDBObject().append(oSField.concat(agentOS.replace(".", "_")), 1)); //Need to replace dots because they are parsed like a nested document
+            					
+           		collection.update(new BasicDBObject().append("shortUrl", shortUrl), newOSClicks);	
+           	
+			try {
+				
+				IPGeoloc geo = new IPGeoloc();
+				country = geo.getCountryName(agentIP);
+				
+			} catch (IOException e) {
+					
+				country = UNDEFINED_COUNTRY;
+				
+			} catch(GeoIp2Exception e){
+				
+				country = UNDEFINED_COUNTRY;
+			}
+			
+           	BasicDBObject newCountryClicks = 
+           			new BasicDBObject().append("$inc", 
+           			new BasicDBObject().append(countryField.concat(country), 1));
+            					
+           		collection.update(new BasicDBObject().append("shortUrl", shortUrl), newCountryClicks);	
+    		
     		
     	} catch (NullPointerException e){	
     		

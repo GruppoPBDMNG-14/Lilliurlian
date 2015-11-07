@@ -3,11 +3,9 @@ package lilliurlian;
 import com.google.gson.Gson;
 import spark.Response;
 import spark.ResponseTransformer;
-
 import java.util.HashMap;
 
 public class JsonTransformer implements ResponseTransformer {
-
     private Gson gson = new Gson();
 
     @Override
@@ -17,5 +15,4 @@ public class JsonTransformer implements ResponseTransformer {
         }
         return gson.toJson(model);
     }
-
 }

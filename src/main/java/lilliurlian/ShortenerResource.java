@@ -3,38 +3,22 @@ package lilliurlian;
 import net.sf.uadetector.ReadableUserAgent;
 import net.sf.uadetector.UserAgentStringParser;
 import net.sf.uadetector.service.UADetectorServiceFactory;
-
-import org.apache.commons.validator.routines.UrlValidator;
-
-import com.google.gson.Gson;
-
-import spark.Request;
-import spark.Response;
-import spark.Route;
-
-import java.io.IOException;
-import java.util.HashMap;
-
 import lilliurlian.entities.UrlFromClient;
 import lilliurlian.entities.UrlFromServer;
 import lilliurlian.exceptions.CustomUrlExistsException;
 import lilliurlian.exceptions.CustomUrlNotValidException;
 import lilliurlian.exceptions.PageNotFoundException;
 import lilliurlian.exceptions.WrongUrlException;
-import lilliurlian.utility.IPGeoloc;
 import static spark.Spark.get;
 import static spark.Spark.post;
-import static spark.Spark.put;
 
 public class ShortenerResource {
-
     private static final String API_CONTEXT = "/api/v1";
     private static final int CUSTOM_URL_NOT_VALID_RESPONSE_ERROR_CODE = 503;
     private static final int WRONG_URL_RESPONSE_ERROR_CODE = 502;
     private static final int CUSTOM_URL_EXISTS_RESPONSE_ERROR_CODE = 501;
     private static final int NEW_URL_RESPONSE_SUCCESS_CODE = 201;
     private static final int GET_STATS_RESPONSE_SUCCESS_CODE = 202;
-
     private final ShortenerService shortenerService;
 
     public ShortenerResource(ShortenerService shortenerService) {
@@ -43,11 +27,7 @@ public class ShortenerResource {
     }
 
     private void setupEndpoints() {
-    	
-    
-    	
         post(API_CONTEXT + "/todos", "application/json", (request, response) -> {
-        	
         	UrlFromClient returnUrl = null;
         	
         	try{
@@ -71,11 +51,7 @@ public class ShortenerResource {
         	
         }, new JsonTransformer());
         
-        
         get("/:shortUrl", "application/json", (request, response) -> {
-        	
-        	
-
         	UserAgentStringParser parser = UADetectorServiceFactory.getResourceModuleParser();
     		ReadableUserAgent agent = parser.parse(request.headers("User-Agent"));
     		
@@ -99,6 +75,7 @@ public class ShortenerResource {
         		} catch (PageNotFoundException e){
         		
         			response.redirect("#/404");
+        			
         		}
         	}
         	
@@ -106,21 +83,12 @@ public class ShortenerResource {
         });
         
         post(API_CONTEXT + "/stats", "application/json", (request, response) -> {
-        	
-
         	UrlFromServer stats = null;
         	
         	stats = shortenerService.getStats(request.body());
         	response.status(GET_STATS_RESPONSE_SUCCESS_CODE);
-        	
-        	
+
         	return stats;
-        	
-        }, new JsonTransformer());
-
-                
-
+        }, new JsonTransformer());       
     }
-
-
 }

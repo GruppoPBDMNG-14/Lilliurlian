@@ -3,10 +3,8 @@ package lilliurlian.utility;
 import java.util.Random;
 
 public class ShortStringGenerator {
-
 		  private static final char[] SYMBOLS;
 		  private static final int LENGTH = 6;
-
 		  static {
 		    StringBuilder tmp = new StringBuilder();
 		    for (char ch = '0'; ch <= '9'; ++ch)
@@ -17,9 +15,7 @@ public class ShortStringGenerator {
 			      tmp.append(ch);
 		    SYMBOLS = tmp.toString().toCharArray();
 		  }   
-
 		  private final Random random = new Random();
-
 		  private final char[] buf;
 
 		  public ShortStringGenerator() {
@@ -33,5 +29,3 @@ public class ShortStringGenerator {
 		    return new String(buf);
 		  }
 		}
-	
-

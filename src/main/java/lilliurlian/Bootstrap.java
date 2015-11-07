@@ -1,11 +1,9 @@
 package lilliurlian;
 
 import com.mongodb.*;
-
 import static spark.Spark.setIpAddress;
 import static spark.Spark.setPort;
 import static spark.SparkBase.staticFileLocation;
-
 
 public class Bootstrap {
     private static final String IP_ADDRESS = "localhost";
@@ -19,9 +17,7 @@ public class Bootstrap {
     }
 
     private static DB mongo() throws Exception {
-       
-            MongoClient mongoClient = new MongoClient("localhost");
+            MongoClient mongoClient = new MongoClient(IP_ADDRESS);
             return mongoClient.getDB("URLShortener");
-        
     }
 }

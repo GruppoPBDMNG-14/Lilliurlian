@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.util.HashMap;
 
 import lilliurlian.entities.UrlFromClient;
+import lilliurlian.entities.UrlFromServer;
 import lilliurlian.exceptions.CustomUrlExistsException;
 import lilliurlian.exceptions.CustomUrlNotValidException;
 import lilliurlian.exceptions.PageNotFoundException;
@@ -32,6 +33,7 @@ public class ShortenerResource {
     private static final int WRONG_URL_RESPONSE_ERROR_CODE = 502;
     private static final int CUSTOM_URL_EXISTS_RESPONSE_ERROR_CODE = 501;
     private static final int NEW_URL_RESPONSE_SUCCESS_CODE = 201;
+    private static final int GET_STATS_RESPONSE_SUCCESS_CODE = 202;
 
     private final ShortenerService shortenerService;
 
@@ -102,6 +104,19 @@ public class ShortenerResource {
         	
         	return null;
         });
+        
+        post(API_CONTEXT + "/stats", "application/json", (request, response) -> {
+        	
+
+        	UrlFromServer stats = null;
+        	
+        	stats = shortenerService.getStats(request.body());
+        	response.status(GET_STATS_RESPONSE_SUCCESS_CODE);
+        	
+        	
+        	return stats;
+        	
+        }, new JsonTransformer());
 
                 
 

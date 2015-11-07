@@ -27,7 +27,7 @@ public class ShortenerService {
 	
 	String browserField = "browser.";
 	String oSField = "OS.";
-	String countryField = "Country.";
+	String countryField = "country.";
 	String totalClicksField = "totalClicks";
 	
 	private static final String UNDEFINED_COUNTRY = "NaN";
@@ -178,5 +178,17 @@ public class ShortenerService {
         return ret;
     
     }    
+    
+    public UrlFromServer getStats(String body) {
+    	
+    	UrlFromClient url = new Gson().fromJson(body, UrlFromClient.class);
+        UrlFromServer stats = null;
+        
+        BasicDBObject dbObject = (BasicDBObject) collection.findOne(new BasicDBObject("shortUrl", url.getShortUrl()));
+        
+        stats = new UrlFromServer(dbObject);
+        
+        return stats;
+    }
 
 }

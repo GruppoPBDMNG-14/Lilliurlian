@@ -18,27 +18,36 @@ app.config(function ($routeProvider) {
         controller: 'StatsCtrl'
     }).when('/404', {
         templateUrl: 'views/404.html',
-        controller: 'ListCtrl'
     }).otherwise({
         redirectTo: '/'
     })
 });
 
 app.controller('StatsCtrl', function ($scope, $http) {
-    $http.get('/api/v1/todos').success(function (data) {
-        $scope.todos = data;
-    }).error(function (data, status) {
-        console.log('Error ' + data)
-    })
+	
+	$scope.getStats = function () {
+		$http.post('/api/v1/stats', $scope.url).success(function (data) {
+			
+			$scope.shortUrl = data.shortUrl;
+			$scope.longUrl = data.longUrl;
+			$scope.createdOn = data.createdOn;
+			$scope.totalClicks = data.totalClicks;
+			$scope.clicksPerDay = data.clicksPerDay;
+			$scope.clicksPerMonth = data.clicksPerMonth;
+			$scope.clicksPerYear = data.clicksPerYear;
+			$scope.clicksPerCountry = data.clicksPerCountry;
+			$scope.clicksPerBrowser = data.clicksPerBrowser;
+			$scope.clicksPerOS = data.clicksPerOS;
+			$scope.response = true;
+			$scope.error = false;
+		}).error(function (data, status){
+			
+			
+		})
+		
+	}
 
-    $scope.todoStatusChanged = function (todo) {
-        console.log(todo);
-        $http.put('/api/v1/todos/' + todo.id, todo).success(function (data) {
-            console.log('status changed');
-        }).error(function (data, status) {
-            console.log('Error ' + data)
-        })
-    }
+
 });
 
 app.controller('CreateCtrl', function ($scope, $http, $location) {

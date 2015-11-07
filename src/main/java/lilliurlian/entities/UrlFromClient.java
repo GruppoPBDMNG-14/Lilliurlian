@@ -24,5 +24,9 @@ public class UrlFromClient {
     public String getCustomUrl() {
         return shortUrl;
     }
+    
+    public String getShortUrl(){
+    	return shortUrl;
+    }
 
 }

@@ -11,7 +11,7 @@ import org.junit.Test;
  * @author Mirko
  *
  */
-public class TestBadContentChecker {
+public class BadContentCheckerTest {
 	private String[] samples = {"12cazzoer","nonruffiano7", "estrapuppami12", 
 			"pistolante", "ignudo", "finocchio", "al2bordellocsdf1", 
 			"sherlock", "vault101", "dovahkin", "dottorechi"};
@@ -35,6 +35,6 @@ public class TestBadContentChecker {
 	@Test
 	public final void testCheck() {
 		for(int i = 0; i<samples.length; i++)
-			assertTrue("Caso di test " + i, BadContentChecker.check(samples[i]) == results[i]);
+			assertTrue("Caso di test n " + i + 1, BadContentChecker.check(samples[i]) == results[i]);
 	}
 }

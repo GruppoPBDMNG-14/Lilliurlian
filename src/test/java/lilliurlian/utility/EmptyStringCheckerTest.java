@@ -10,7 +10,7 @@ import org.junit.Test;
  * @author Mirko
  *
  */
-public class TestEmptyStringChecker {
+public class EmptyStringCheckerTest {
 	private String[] samples = {"", " ", "  ", "   ", " a", "a ", " a ", "  a 1 ", "1 2 3&"};
 	private boolean[] results = {true, true, true, true, false, false, false, false, false};
 
@@ -34,7 +34,7 @@ public class TestEmptyStringChecker {
 	@Test
 	public final void testIsBlank() {
 		for(int i = 0; i<samples.length; i++)
-			assertTrue("Caso di test " + i, EmptyStringChecker.isBlank(samples[i]) == results[i]);
+			assertTrue("Caso di test n " + i + 1, EmptyStringChecker.isBlank(samples[i]) == results[i]);
 	}
 
 }

@@ -6,7 +6,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-public class TestSpecialCharFinder {
+public class SpecialCharFinderTest {
 	private String[] samples = {"%", "ù", "a", "we)", "asdxvz23", "cwefwe565!", "asf234", "12345", "qwe'ty", "azxe", "/", "à"};
 	private boolean[] results = {true, true, false, true, false, true, false, false, true, false, true, true};
 
@@ -21,6 +21,6 @@ public class TestSpecialCharFinder {
 	@Test
 	public final void testIsFound() {
 		for(int i = 0; i<samples .length; i++)
-			assertTrue("Caso di test " + i, SpecialCharFinder.isFound(samples[i]) == results[i]);
+			assertTrue("Caso di test n " + i + 1, SpecialCharFinder.isFound(samples[i]) == results[i]);
 	}
 }

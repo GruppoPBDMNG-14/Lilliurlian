@@ -6,7 +6,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-public class TestShortStringGenerator {
+public class ShortStringGeneratorTest {
 	private ShortStringGenerator test;
 	private String sample = "[-a-zA-Z0-9]*[-a-zA-Z0-9]";
 
@@ -22,7 +22,7 @@ public class TestShortStringGenerator {
 
 	@Test
 	public final void testNextString() {
-		for (int i = 0; i<100; i++)
-			assertTrue("Caso di test " + i, test.nextString().matches(sample));
+		for (int i = 0; i < 1000; i++)
+			assertTrue("Caso di test n " + i + 1, test.nextString().matches(sample));
 	}
 }

@@ -153,12 +153,20 @@ public class ShortenerService {
         return ret;
     }    
     
-    public UrlFromServer getStats(String body) {
+    public UrlFromServer getStats(String body) throws PageNotFoundException{
     	UrlFromClient url = new Gson().fromJson(body, UrlFromClient.class);
         UrlFromServer stats = null;
-        BasicDBObject dbObject = (BasicDBObject) collection.findOne(new BasicDBObject(SHORT_URL, url.getShortUrl()));
         
-        stats = new UrlFromServer(dbObject);
+        try{
+        	
+        	BasicDBObject dbObject = (BasicDBObject) collection.findOne(new BasicDBObject(SHORT_URL, url.getShortUrl()));
+        
+        	stats = new UrlFromServer(dbObject);
+        	
+        } catch (NullPointerException e){
+        	
+        	throw new PageNotFoundException("Short url not found");
+        }
         
         return stats;
     }

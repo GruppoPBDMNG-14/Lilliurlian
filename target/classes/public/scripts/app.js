@@ -25,6 +25,9 @@ app.config(function ($routeProvider) {
 
 app.controller('StatsCtrl', function ($scope, $http) {
 	
+	$scope.response = false;
+    $scope.error = false;
+    
 	$scope.getStats = function () {
 		$http.post('/api/v1/stats', $scope.url).success(function (data) {
 			
@@ -42,6 +45,14 @@ app.controller('StatsCtrl', function ($scope, $http) {
 			$scope.error = false;
 		}).error(function (data, status){
 			
+			console.log('Error ' + data);
+			
+			if(status == 504){
+				
+				$scope.textError = "Short URL Not Found!";
+				$scope.response = true;
+				$scope.error = true;
+			}
 			
 		})
 		
@@ -64,7 +75,7 @@ app.controller('CreateCtrl', function ($scope, $http, $location) {
             $scope.response = true;
             $scope.error = false;
         }).error(function (data, status) {
-            console.log('Error ' + data)
+            console.log('Error ' + data);
             if(status == 501){
             	
             	$scope.textError = "This custom URL already exists. Please choose a new one...";

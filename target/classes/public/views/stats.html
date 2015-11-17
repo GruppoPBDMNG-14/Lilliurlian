@@ -20,8 +20,8 @@
 		</form>
 	</div>
 
-	<div class="more-top-margin">
- 		<table class="table table-striped table-bordered" ng-show="true">
+	<div class="more-top-margin" >
+ 		<table class="table table-striped table-bordered" ng-hide="error">
 
     		<tbody>
       			<tr>
@@ -66,5 +66,9 @@
       			</tr>
     		</tbody>
   		</table>
+  		
+  		<div id="error" class="alert alert-danger fade in big-text"	ng-show="error" ng-cloak>
+			<strong>Error!</strong> {{textError}}
+		</div>
  	</div> 
 </div>  

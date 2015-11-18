@@ -18,6 +18,14 @@ import lilliurlian.utility.IPGeoloc;
 import lilliurlian.utility.ShortStringGenerator;
 import lilliurlian.utility.SpecialCharFinder;
 
+/**
+ * Data Access Object. Each method of this class manages a specific write/read need of the server
+ * after receiving a client request. MongoDB queries are used after security and consistency
+ * checks are executed on input data.
+ * 
+ * @author GruppoPBDMNG-14
+ *
+ */
 public class ShortenerService {
 	String browserField = "browser.";
 	String oSField = "OS.";
@@ -35,11 +43,25 @@ public class ShortenerService {
 	private final DB db;
     private final DBCollection collection;
 
+    /**
+     * Constructs a new DAO, specifying the target DB and the collection to use.
+     * 
+     * @param db The database the DAO has to work on.
+     */
     public ShortenerService(DB db) {
         this.db = db;
         this.collection = db.getCollection("urls");
     }
 
+    /**
+     * Controls input data from the client, creates a new shortUrl and saves it in the database with its infos.
+     * 
+     * @param body Body of the request sent by the client.
+     * @return the shortUrl just created with relative infos.
+     * @throws CustomUrlExistsException
+     * @throws WrongUrlException
+     * @throws CustomUrlNotValidException
+     */
     public UrlFromClient createNewUrl(String body) throws CustomUrlExistsException, 
     WrongUrlException, CustomUrlNotValidException  {
         UrlFromClient url = new Gson().fromJson(body, UrlFromClient.class);
@@ -108,7 +130,17 @@ public class ShortenerService {
         return returnUrl;
     }
 
-    
+    /**
+     * Searches if the shortUrl requested for redirect is inside the database.
+     * If yes returns the relative longUrl and updates click statistics.
+     * 
+     * @param shortUrl The shortUrl requested from the client for redirecting purposes.
+     * @param agentName The name of the browser that made the request.
+     * @param agentOS The name of the Operating System hosting the browser. 
+     * @param agentIP The IP of the agent addressing the request.
+     * @return the longUrl associated to the shortUrl requested.
+     * @throws PageNotFoundException
+     */
     public String searchShortUrl(String shortUrl, String agentName, 
     		String agentOS, String agentIP) throws PageNotFoundException {
     	String country;
@@ -157,6 +189,13 @@ public class ShortenerService {
         return ret;
     }    
     
+    /**
+     * Read the statistics of a given shortUrl.
+     * 
+     * @param body Body of the request sent by the client.
+     * @return all the infos and stats about the given shortUrl
+     * @throws PageNotFoundException
+     */
     public UrlFromServer getStats(String body) throws PageNotFoundException{
     	UrlFromClient url = new Gson().fromJson(body, UrlFromClient.class);
         UrlFromServer stats = null;

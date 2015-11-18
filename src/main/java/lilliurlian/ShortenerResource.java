@@ -12,7 +12,15 @@ import lilliurlian.exceptions.WrongUrlException;
 import static spark.Spark.get;
 import static spark.Spark.post;
 
+/**
+ * This class works as server interface for client requests using Spark methods.
+ * 
+ * 
+ * @author GruppoPDBMNG-14
+ *
+ */
 public class ShortenerResource {
+	
     private static final String API_CONTEXT = "/api/v1";
     private static final int CUSTOM_URL_NOT_VALID_RESPONSE_ERROR_CODE = 503;
     private static final int WRONG_URL_RESPONSE_ERROR_CODE = 502;
@@ -22,10 +30,20 @@ public class ShortenerResource {
     private static final int GET_STATS_RESPONSE_SUCCESS_CODE = 202;
     private final ShortenerService shortenerService;
 
+    /**
+     * Constructs a new listening service for incoming requests, initializing the DAO and setting endpoints.
+     * 
+     * @param shortenerService Access to DAO is given to let the server manage write/read client requests.
+     */
     public ShortenerResource(ShortenerService shortenerService) {
         this.shortenerService = shortenerService;
         setupEndpoints();
     }
+    
+    /**
+     * Sets how the server reacts to each specific request. Spark method put and get are used
+     * to let client communicate with server.
+     */
 
     private void setupEndpoints() {
         post(API_CONTEXT + "/todos", "application/json", (request, response) -> {

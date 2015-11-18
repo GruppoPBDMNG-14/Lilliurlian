@@ -5,9 +5,24 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.Scanner;
 
+/**
+ * This utility checks if a string contains inappropriate content.
+ * Text files are used as resources of forbidden words to compare the string with.
+ * 
+ * @author GruppoPBDMNG-14
+ *
+ */
 public class BadContentChecker {
+	
+	/** Numbers of languages files */
 	private static final int NUMBER_OF_LANG = 11;
 	
+	/**
+	 * Searches for bad content in a given string.
+	 * 
+	 * @param stringToCheck The string to analyze.
+	 * @return true if bad content is found, otherwise returns false.
+	 */
 	public static boolean check(String stringToCheck) {
 		boolean result = false;
 		
@@ -27,7 +42,7 @@ public class BadContentChecker {
 				inputFile.close();
 			}
 		} catch (FileNotFoundException e) {
-			System.out.println("non trovato");
+
 			result = false;
 		}
 		return result; 

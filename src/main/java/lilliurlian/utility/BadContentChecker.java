@@ -14,8 +14,10 @@ import java.util.Scanner;
  */
 public class BadContentChecker {
 	
-	/** Numbers of languages files */
-	private static final int NUMBER_OF_LANG = 11;
+	/**
+	 * Array of languages id
+	 */
+	private static final String[] LANGUAGES =  {"de","en","es","fi","fr","hi","hu","it","nl","pt","sv"};
 	
 	/**
 	 * Searches for bad content in a given string.
@@ -27,14 +29,15 @@ public class BadContentChecker {
 		boolean result = false;
 		
 		try{
-			for(int i = 0; i < NUMBER_OF_LANG; i++){
-				Scanner inputFile = new Scanner(new BufferedReader(new FileReader("src/main/resources/public/languages/it.txt")));
+			for(int i = 0; i < LANGUAGES.length; i++){
+				
+				Scanner inputFile = new Scanner(new BufferedReader(new FileReader("src/main/resources/public/languages/" + LANGUAGES[i] + ".txt")));
 
 				while (inputFile.hasNextLine() && result == false) {
 					String badWord = inputFile.nextLine();
 					
 					if (stringToCheck.equalsIgnoreCase(badWord) || stringToCheck.contains(badWord)) {
-						i = NUMBER_OF_LANG;
+						i = LANGUAGES.length;
 						result = true;
 					}
 				}

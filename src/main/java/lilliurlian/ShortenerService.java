@@ -23,11 +23,15 @@ public class ShortenerService {
 	String oSField = "OS.";
 	String countryField = "country.";
 	String totalClicksField = "totalClicks";
+	
 	private static final String UNDEFINED_COUNTRY = "NaN";
 	private static final String SHORT_URL = "shortUrl";
 	private static final String LONG_URL = "longUrl";
 	private static final String IS_CUSTOM = "isCustom";
 	private static final String CREATED_ON = "createdOn";
+	
+	private static final String SERVER_URL = "127.0.0.1:8080/";
+	
 	private final DB db;
     private final DBCollection collection;
 
@@ -159,7 +163,7 @@ public class ShortenerService {
         
         try{
         	
-        	BasicDBObject dbObject = (BasicDBObject) collection.findOne(new BasicDBObject(SHORT_URL, url.getShortUrl()));
+        	BasicDBObject dbObject = (BasicDBObject) collection.findOne(new BasicDBObject(SHORT_URL, url.getShortUrl().replace(SERVER_URL, "")));
         
         	stats = new UrlFromServer(dbObject);
         	

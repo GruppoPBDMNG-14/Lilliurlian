@@ -60,12 +60,6 @@ public class ShortenerResource {
     		String agentOS = agent.getOperatingSystem().getName();
     		String agentIP = request.ip();
     		String shortUrl = request.params(":shortUrl");
-    		
-    		//Controlli da togliere
-    		System.out.println(agent.getName());
-    		System.out.println(agent.getOperatingSystem().getName());
-        	System.out.println(request.ip());
-        	System.out.println(request.params(":shortUrl"));
         	
         	if(request.params(":shortUrl").equalsIgnoreCase("favicon.ico") == false){
         		try{

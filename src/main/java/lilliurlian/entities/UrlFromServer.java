@@ -43,7 +43,6 @@ public class UrlFromServer {
     	else
     		clicksPerDay = totalClicks / diffDays;
     	
-    	System.out.println(clicksPerDay + " " + diffDays);
     	return Math.round(clicksPerDay * 100d) / 100d;
     }
     
@@ -58,7 +57,6 @@ public class UrlFromServer {
     	else
     		clicksPerMonth = totalClicks / diffMonths;
     	
-    	System.out.println(clicksPerMonth + " " + diffMonths);
     	return Math.round(clicksPerMonth * 100d) / 100d;
     }
     
@@ -72,8 +70,7 @@ public class UrlFromServer {
     		clicksPerYear = totalClicks;
     	else
     		clicksPerYear = totalClicks / diffYears;
-    	
-    	System.out.println(clicksPerYear + " " + diffYears);
+
     	return Math.round(clicksPerYear * 100d) / 100d;
     }
     
